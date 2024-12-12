@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Estudantes</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    h2 {
+      border-bottom: 2px solid #800080;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h2>Cadastro de Estudantes</h2>
+
+
+  <form action="/students" method="post">
+    <div class="form-group">
+      <label for="name">Nome:</label>
+      <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="birthDate">Data de Nascimento:</label>
+      <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+    </div>
+    <div class="form-group">
+      <label for="cep">CEP:</label>
+      <input type="text" class="form-control" id="cep" name="cep" required maxlength="9" placeholder="XXXXX-XXX" onblur="getLocalidade()">
+    </div>
+    <div class="form-group">
+      <label for="localidade">Localidade:</label>
+      <input type="text" class="form-control" id="localidade" name="localidade" readonly>
+    </div>
+    <div class="form-group">
+      <label for="subject">Curso:</label>
+      <input type="text" class="form-control" id="subject" name="subject" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+  </form>
+
+
+  <h3 class="mt-5">Lista de Estudantes</h3>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Data de Nascimento</th>
+      <th>CEP</th>
+      <th>Cidade</th>
+      <th>Curso</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+      <td th:text="${student.id}"></td>
+      <td th:text="${student.name}"></td>
+      <td th:text="${student.birthDate}"></td>
+      <td th:text="${student.cep}"></td>
+      <td th:text="${student.localidade}"></td>
+      <td th:text="${student.subject}"></td>
+      <td>
+        <a th:href="@{/students/index/{id}(id=${student.id})}" class="btn btn-warning btn-sm">Editar</a>
+        <form th:action="@{/students/delete/{id}(id=${student.id})}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function getLocalidade() {
+    var cep = document.getElementById('cep').value;
+    cep = cep.replace(/\D/g, '');
+    if (cep.length === 8) {
+      var url = `https://viacep.com.br/ws/${cep}/json/`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.localidade) {
+            document.getElementById('localidade').value = data.localidade;
+          } else {
+            alert('CEP não encontrado');
+          }
+        })
+        .catch(error => {
+          alert('Erro ao buscar o CEP');
+        });
+    }
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
