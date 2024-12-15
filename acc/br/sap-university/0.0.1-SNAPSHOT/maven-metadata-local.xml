@@ -3,7 +3,7 @@
   <groupId>acc.br</groupId>
   <artifactId>sap-university</artifactId>
   <versioning>
-    <lastUpdated>20241215112748</lastUpdated>
+    <lastUpdated>20241215161728</lastUpdated>
     <snapshot>
       <localCopy>true</localCopy>
     </snapshot>
@@ -11,12 +11,12 @@
       <snapshotVersion>
         <extension>pom</extension>
         <value>0.0.1-SNAPSHOT</value>
-        <updated>20241215112748</updated>
+        <updated>20241215161728</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>jar</extension>
         <value>0.0.1-SNAPSHOT</value>
-        <updated>20241215112748</updated>
+        <updated>20241215161728</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
